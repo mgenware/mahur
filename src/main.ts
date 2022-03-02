@@ -1,25 +1,25 @@
 /* eslint-disable no-underscore-dangle */
-export type EventEmitterAction = (arg: unknown) => void;
+export type EventEmitterAction<T> = (arg: T | undefined) => void;
 
 export type CancelEventFunction = () => void;
 
-interface ActionEntry {
-  action: EventEmitterAction;
+interface ActionEntry<T> {
+  action: EventEmitterAction<T>;
   once: boolean;
 }
 
-export class EventEmitter {
-  private events: Record<string, ActionEntry[]> = {};
+export class EventEmitter<T = unknown> {
+  private events: Record<string, ActionEntry<T>[]> = {};
 
-  on(name: string, cb: EventEmitterAction) {
+  on(name: string, cb: EventEmitterAction<T>) {
     return this._on(name, cb, false);
   }
 
-  once(name: string, cb: EventEmitterAction) {
+  once(name: string, cb: EventEmitterAction<T>) {
     return this._on(name, cb, true);
   }
 
-  dispatch(name: string, arg?: unknown): boolean {
+  dispatch(name: string, arg?: T): boolean {
     const list = this.events[name];
     if (!list?.length) {
       return false;
@@ -29,13 +29,13 @@ export class EventEmitter {
     return true;
   }
 
-  private ensureSlotAllocated(name: string): ActionEntry[] {
+  private ensureSlotAllocated(name: string): ActionEntry<T>[] {
     const { events } = this;
     return (events[name] ??= []);
   }
 
-  private _on(name: string, cb: EventEmitterAction, once: boolean): CancelEventFunction {
-    const action: ActionEntry = { action: cb, once };
+  private _on(name: string, cb: EventEmitterAction<T>, once: boolean): CancelEventFunction {
+    const action: ActionEntry<T> = { action: cb, once };
     this.ensureSlotAllocated(name).push(action);
 
     let canceled = false;
