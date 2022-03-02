@@ -87,3 +87,14 @@ it('Unregister (once)', () => {
   assert.ok(e.dispatch('a', 1) === false);
   assert.strictEqual(aStr, '');
 });
+
+it('Arg of T', () => {
+  const e = new EventEmitter<number>();
+  let aStr = '';
+  e.once('a', (arg) => (aStr += `${arg}`));
+
+  assert.ok(e.dispatch('a', 1));
+  assert.strictEqual(aStr, '1');
+  assert.ok(e.dispatch('a', 1) === false);
+  assert.strictEqual(aStr, '1');
+});
