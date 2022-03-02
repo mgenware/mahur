@@ -77,3 +77,17 @@ e.dispatch('event', 'hello');
 // Prints 'handler 1, hello'.
 // Prints 'handler 2, hello'.
 ```
+
+By default, the argument type of a handler is `unknown`. It can be set to a generic type as well:
+
+```ts
+import { EventEmitter } from 'mahur';
+
+// Create a emitter with a handler argument type of `number`.
+const emitter = new EventEmitter<number>();
+
+e.on('event', (arg) => console.log(arg));
+// The second argument must be a number.
+e.dispatch('event', 1);
+// Prints 1.
+```
