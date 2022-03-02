@@ -1,6 +1,6 @@
 {
   "name": "mahur",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Tiny event emitter for browser",
   "type": "module",
   "exports": "./dist/main.js",
