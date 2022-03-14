@@ -31,8 +31,6 @@ e.dispatch('event', 'world');
 
 `once`:
 
-Register and dispatch an event:
-
 ```ts
 import { EventEmitter } from 'mahur';
 
